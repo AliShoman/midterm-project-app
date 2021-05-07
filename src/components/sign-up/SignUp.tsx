@@ -45,22 +45,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignUp() {
   const classes = useStyles();
 
   const context = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
-  const emailOnChange = (e: any) => {
-    setEmail(e.target.value);
-  };
   const [password, setPassword] = useState("");
-  const passwordOnChange = (e: any) => {
-    setPassword(e.target.value);
-  };
-  const signIn = async (e: any) => {
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+
+  const signUp = async (e: any) => {
     e.preventDefault();
-    await postData("http://localhost:8080/user/auth", { email, password })
+    await postData("http://localhost:8080/user", { email, password , name, address })
       .then((user) => {
         console.log(user);
         context.updateUserData(user);
@@ -70,7 +67,7 @@ export default function SignIn() {
       });
   };
 
-  const postData = async (url = "", data = {}) => {
+  const postData = async (url: string, data: {}) => {
     // Default options are marked with *
     const response = await fetch(url, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -86,7 +83,7 @@ export default function SignIn() {
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
     if (response.status !== 200) {
-      throw new Error("Not Authorized User");
+      throw new Error("Error creating user");
     }
     return response.json(); // parses JSON response into native JavaScript objects
   };
@@ -99,9 +96,9 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign Up
         </Typography>
-        <form className={classes.form} onSubmit={signIn}>
+        <form className={classes.form} onSubmit={signUp}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -112,7 +109,9 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
-            onChange={emailOnChange}
+            onChange={(e: any) => {
+              setEmail(e.target.value);
+            }}
           />
           <TextField
             variant="outlined"
@@ -124,11 +123,42 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={passwordOnChange}
+            onChange={(e: any) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="Name"
+            name="name"
+            autoComplete="name"
+            autoFocus
+            onChange={(e: any) => {
+              setName(e.target.value);
+            }}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="address"
+            label="Address"
+            name="address"
+            autoComplete="address"
+            autoFocus
+            onChange={(e: any) => {
+              setAddress(e.target.value);
+            }}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+
+            control={<Checkbox value="remember" color="primary" required />}
+            label="Accept license agreement"
           />
           <Button
             type="submit"
@@ -137,11 +167,11 @@ export default function SignIn() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Sign Up
           </Button>
           <Grid container>
             <Grid item>
-              <Link to="/sign-up">{"Don't have an account? Sign Up"}</Link>
+              <Link to="/sign-in">{"Already have an account? Sign In"}</Link>
             </Grid>
           </Grid>
         </form>

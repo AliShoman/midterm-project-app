@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AuthenticationRouter from "./components/router/AuthenticationRouter";
 import SignIn from "./components/sign-in/SignIn";
 import { AuthContext } from "./context/Context";
 import { User } from "./models/User";
@@ -29,15 +30,20 @@ function App() {
     setUser(mergedUserData);
     localStorage.setItem("e-commerce-user", JSON.stringify(mergedUserData));
   };
+  const signOut = ()=>{
+    setUser(null);
+    localStorage.setItem("e-commerce-user", '');
+  }
   return (
     <AuthContext.Provider
       value={{
         user: user,
         updateUserData: updateUserData,
+        signOut:signOut
       }}
     >
       <div className="App">
-        <SignIn />
+        <AuthenticationRouter/>
       </div>
     </AuthContext.Provider>
   );
