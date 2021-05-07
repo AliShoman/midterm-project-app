@@ -31,6 +31,10 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
+import AddProduct from "../product/AddProduct";
+import ProductCard from "../product/ProductCard";
+import ProductsScene from "../product/ProductsScene";
+import WarehouseScene from "../warehouse/WarehouseScene";
 
 const drawerWidth = 240;
 
@@ -178,6 +182,24 @@ export default function DrawerLayout() {
               <ListItemText primary={"Shopping Cart"} />
             </ListItem>
           </Link>
+          <Link to="/add-product" className={classes.listItem}>
+            <ListItem button key={"add-product"}>
+              <ListItemIcon>{<MailIcon />}</ListItemIcon>
+              <ListItemText primary={"Add Product"} />
+            </ListItem>
+          </Link>
+          <Link to="/products" className={classes.listItem}>
+            <ListItem button key={"products"}>
+              <ListItemIcon>{<MailIcon />}</ListItemIcon>
+              <ListItemText primary={"Products"} />
+            </ListItem>
+          </Link>
+          <Link to="/warehouses" className={classes.listItem}>
+            <ListItem button key={"warehouses"}>
+              <ListItemIcon>{<MailIcon />}</ListItemIcon>
+              <ListItemText primary={"Warehouses"} />
+            </ListItem>
+          </Link>
         </List>
         <Divider />
         <List>
@@ -206,9 +228,19 @@ export default function DrawerLayout() {
           <Route path={"/profile"}>
             <h1>Profile</h1>
           </Route>
+          <Route path={"/add-product"}>
+            <AddProduct/>
+          </Route>
+          <Route path={"/products"}>
+              <ProductsScene/>
+          </Route>
+          <Route path={"/warehouses"}>
+              <WarehouseScene/>
+          </Route>
           <Route path={["/", ""]} exact={true}>
             <Redirect to={"/home"} />
           </Route>
+
         </Switch>
       </main>
     </div>
