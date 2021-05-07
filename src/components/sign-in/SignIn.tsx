@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Icon } from "@material-ui/core";
+import { AuthContext } from "../../context/Context";
 
 function Copyright() {
   return (
@@ -49,41 +50,48 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
 
-  const [email, setEmail] = useState('');
-  const emailOnChange =(e:any)=>{
-    setEmail(e.target.value)
-  }
-  const [password, setPassword] = useState('');
-  const passwordOnChange =(e:any)=>{
-    setPassword(e.target.value)
-  }
-  const signIn =async (e:any) => {
-    e.preventDefault()
-    await postData('http://localhost:8080/user/auth',{email,password})
-    .then((user)=>{
-        console.log(user)
-    })
+  const context = useContext(AuthContext);
+
+  const [email, setEmail] = useState("");
+  const emailOnChange = (e: any) => {
+    setEmail(e.target.value);
+  };
+  const [password, setPassword] = useState("");
+  const passwordOnChange = (e: any) => {
+    setPassword(e.target.value);
+  };
+  const signIn = async (e: any) => {
+    e.preventDefault();
+    await postData("http://localhost:8080/user/auth", { email, password })
+      .then((user) => {
+        console.log(user);
+        context.updateUserData(user);
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
   };
 
-   const postData= async (url = '', data = {})=> {
+  const postData = async (url = "", data = {}) => {
     // Default options are marked with *
     const response = await fetch(url, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      body: JSON.stringify(data) // body data type must match "Content-Type" header
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
+    if (response.status !== 200) {
+      throw new Error("Not Authorized User");
+    }
     return response.json(); // parses JSON response into native JavaScript objects
-  }
-  
-
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -129,7 +137,6 @@ export default function SignIn() {
             fullWidth
             variant="contained"
             color="primary"
-            
             className={classes.submit}
           >
             Sign In
