@@ -5,9 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Product } from './Product';
-import './ProductCard.css'
-import AddToCart from './SelectOrderDialog';
+import { Order } from './order';
 
 const useStyles = makeStyles({
   root: {
@@ -29,7 +27,7 @@ const useStyles = makeStyles({
 });
 
 
-export default function ProductCard(product:Product) {
+export default function OrderCard(order:Order) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -40,21 +38,18 @@ export default function ProductCard(product:Product) {
       <CardContent>
        
         <Typography variant="h5" component="h2">
-          {product.name}
+          ID: {order.id}
         </Typography>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {product.type}
+          <strong>Date of Creation:</strong> {new Date(order.orderDate).toTimeString()}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {product.description}
+          Username :{order.user.name}
         </Typography>
         <Typography variant="body2" component="p">
-          {product.price}
+          {order.totalPrice}
         </Typography>
       </CardContent>
-      <CardActions>
-        <AddToCart productId={product.id}/>
-      </CardActions>
     </Card>
   );
 }

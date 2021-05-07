@@ -7,3 +7,7 @@ export const AuthContext = React.createContext({
     signOut:()=>{}
 });
 
+export const RefreshProducts = React.createContext({
+    refresh: () => {},
+});
+

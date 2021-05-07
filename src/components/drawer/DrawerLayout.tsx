@@ -35,6 +35,8 @@ import AddProduct from "../product/AddProduct";
 import ProductCard from "../product/ProductCard";
 import ProductsScene from "../product/ProductsScene";
 import WarehouseScene from "../warehouse/WarehouseScene";
+import OrdersScene from "../order/OrderScene";
+import OpenOrder from "../order/OpenOrder";
 
 const drawerWidth = 240;
 
@@ -101,7 +103,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 400,
       lineHeight: 1.5,
       letterSpacing: "0.00938em",
-      color:'black'
+      color: "black",
     },
   })
 );
@@ -140,7 +142,7 @@ export default function DrawerLayout() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Persistent drawer
+            E-Commerce
           </Typography>
         </Toolbar>
       </AppBar>
@@ -176,8 +178,8 @@ export default function DrawerLayout() {
               <ListItemText primary={"Open Order"} />
             </ListItem>
           </Link>
-          <Link to="/cart" className={classes.listItem}>
-            <ListItem button key={"cart"}>
+          <Link to="/orders" className={classes.listItem}>
+            <ListItem button key={"orders"}>
               <ListItemIcon>{<MailIcon />}</ListItemIcon>
               <ListItemText primary={"Shopping Cart"} />
             </ListItem>
@@ -217,10 +219,17 @@ export default function DrawerLayout() {
         <div className={classes.drawerHeader} />
         <Switch>
           <Route path={"/home"}>
-            <h1>Home</h1>
+            <h1>Welcome To our Page</h1>
+             <h2>Done By: <br/>
+             Ali Shoman 1171204 <br />
+             Batool Samoudi 1180231 <br />
+             Amal Mashni 1171022 <br />
+             Elham Anqawi 1171831 <br />
+             Dalal Sarah 1171055 <br />
+             </h2>
           </Route>
           <Route path={"/open-order"}>
-            <h1>Open Order</h1>
+            <OpenOrder />
           </Route>
           <Route path={"/cart"}>
             <h1>My Orders</h1>
@@ -229,18 +238,20 @@ export default function DrawerLayout() {
             <h1>Profile</h1>
           </Route>
           <Route path={"/add-product"}>
-            <AddProduct/>
+            <AddProduct />
+          </Route>
+          <Route path={"/orders"}>
+            <OrdersScene />
           </Route>
           <Route path={"/products"}>
-              <ProductsScene/>
+            <ProductsScene />
           </Route>
           <Route path={"/warehouses"}>
-              <WarehouseScene/>
+            <WarehouseScene />
           </Route>
           <Route path={["/", ""]} exact={true}>
             <Redirect to={"/home"} />
           </Route>
-
         </Switch>
       </main>
     </div>
